@@ -7,6 +7,7 @@ import rol_accesoRoutes from "./routes/rol_acceso.routes";
 import rolRoutes from "./routes/rol.routes";
 import solicitud_documentosRoutes from "./routes/solicitud_documentos.routes";
 import solicitud_estadoRoutes from "./routes/solicitud_estado.routes";
+import solicitud_tipoprac from "./routes/solicitud_tipoprac.routes";
 const app = express();
 var cors = require("cors");
 app.use(express.json());
@@ -19,4 +20,5 @@ app.get("/", (req, res) => {
   );
 });
 app.use("/api/auth", authRoutes);
+app.use("/api/auth/solicitudtipoprac", solicitud_tipoprac);
 export default app;
