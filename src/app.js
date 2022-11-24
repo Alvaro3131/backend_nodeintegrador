@@ -23,4 +23,5 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/auth/solicitudtipoprac", solicitud_tipopracRoutes);
 app.use("/api/auth/solicitud", solicitudRoutes);
+app.use("/api/auth/solicituddocumentos", solicitud_documentosRoutes);
 export default app;
