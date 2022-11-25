@@ -13,27 +13,28 @@ export const login = async (req, res) => {
   const { username, password } = req.body;
   console.log(req.body);
   pool.query(
-    "select * from trabajador where usuario=?;",
+    "select * from usuario where usuario=?;",
     [username],
     function (err, result) {
       try {
         if (result[0].length != 0) {
-          const passold = String(result[0].contraseña);
+          const passold = String(result[0].clave);
           if (bcrypt.compareSync(password, passold)) {
-            var id = result[0].idtrabajador;
-            var nombre = result[0].nombre;
-            var apellidos = result[0].apellidos;
+            var id = result[0].id_usuario;
+            var nombrecompleto = result[0].nom_usuario;
+            var dni = result[0].num_doc;
+            var idrol = result[0].id_rol;
             const user = {
               id: result[0].idtrabajador,
-              nombre: result[0].nombre,
-              apellidos: result[0].apellidos,
-              admin: result[0].admin,
+              nombrecompleto: result[0].nom_usuario,
+              dni: result[0].num_doc,
+              idrol: result[0].id_rol,
             };
             const accessToken = jwt.sign(
-              { user, id, nombre, apellidos },
+              { user, id, nombrecompleto, dni, idrol },
               secret,
               {
-                expiresIn: "100000s",
+                expiresIn: "1000000s",
               }
             );
             const refreshToken = jwt.sign({ user }, refreshTokenSecret);
