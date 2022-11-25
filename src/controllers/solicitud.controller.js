@@ -96,3 +96,85 @@ export const createSolicitud = async (req, res) => {
     return res.status(500).json("Error al listar estudiante");
   }
 };
+
+export const rechazarSolicitud = async (req, res) => {
+  const id = parseInt(req.params.id);
+  const idpostulante = parseInt(req.params.idpostulante);
+  try {
+    pool.query(
+      "CALL SP_RECHAZAR_SOLICITUD(?)",
+      [id, idpostulante],
+      function (err, result) {
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al rechazar la solicitud");
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al rechazar solicitudes");
+  }
+};
+
+export const observarSolicitud = async (req, res) => {
+  const id = parseInt(req.params.id);
+  const observacion = req.body.observacion;
+  console.log(id, observacion)
+  try {
+    pool.query(
+      "CALL SP_OBSERVAR_SOLICITUD(?,?)",
+      [id, observacion],
+      function (err, result) {
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al observar la solicitud");
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al observar solicitudes");
+  }
+};
+
+
+export const validarSolicitud = async (req, res) => {
+  const id = parseInt(req.body.id);
+  try {
+    pool.query(
+      "CALL SP_VALIDAR_APTITUD_SOLICITUD(?)",
+      [id],
+      function (err, result) {
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al validar la solicitud");
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al validar solicitudes");
+  }
+};
+
+export const agregarCartayGuia = async (req, res) => {
+  const id = parseInt(req.body.id);
+  const carta = req.body.link_carta;
+  const guia = req.body.link_guia;
+  try {
+    pool.query(
+      "CALL SP_AGREGAR_CARTA_PRESENTACION(?,?,?)",
+      [id, carta, guia],
+      function (err, result) {
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al agregar carta a la solicitud");
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al agrgar carta + guia de practicas solicitudes");
+  }
+};

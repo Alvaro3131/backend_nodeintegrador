@@ -4,4 +4,8 @@ const router = Router();
 router.post("/", solicitud.createSolicitud);
 router.get("/:id", solicitud.getSolicitudesid);
 router.get("/:id/:tipo", solicitud.getSolicitudesidtipo);
+router.delete("/delete/:id/:idpostulante", solicitud.rechazarSolicitud);
+router.post("/observarsolicitud/:id", solicitud.observarSolicitud);
+router.post("/validarsolicitud/", solicitud.validarSolicitud);
+router.post("/agregarcarta/", solicitud.agregarCartayGuia);
 export default router;
