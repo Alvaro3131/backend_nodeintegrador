@@ -19,6 +19,7 @@ export const getSolicitudesid = async (req, res) => {
     return res.status(500).json("Error al listar solicitudes");
   }
 };
+
 export const getSolicitudesidtipo = async (req, res) => {
   const id = parseInt(req.params.id);
   const tipo = parseInt(req.params.tipo);
