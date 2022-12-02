@@ -26,4 +26,5 @@ app.use("/api/auth/solicitudtipoprac", solicitud_tipopracRoutes);
 app.use("/api/auth/solicitud", solicitudRoutes);
 app.use("/api/auth/solicituddocumentos", solicitud_documentosRoutes);
 app.use("/api/auth/usuario", usuarioRoutes);
+app.use("/api/auth/postulante", postulanteRoutes);
 export default app;
