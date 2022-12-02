@@ -59,7 +59,24 @@ export const createSolicitud = async (req, res) => {
     const P_det_actividades = req.body.actividades;
     const P_id_tipoprac = parseInt(req.body.tipoprac);
     const P_id_postulante = parseInt(req.body.idpostulante);
-
+    console.log(
+      P_centro_practicas,
+      P_direccion,
+      P_departamento,
+      P_provincia,
+      P_distrito,
+      P_sup_nombre,
+      P_sup_correo,
+      P_sup_telefono,
+      P_rem_nombre,
+      P_rem_cargo,
+      P_rem_correo,
+      P_fecha_inicio,
+      P_fecha_fin,
+      P_det_actividades,
+      P_id_tipoprac,
+      P_id_postulante
+    );
     pool.query(
       "CALL insertSolicitud(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
       [
