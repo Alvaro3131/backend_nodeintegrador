@@ -20,13 +20,12 @@ export const getSolicitudesid = async (req, res) => {
   }
 };
 
-
 export const getSolicitudesidtipo = async (req, res) => {
   const id = parseInt(req.params.id);
   const tipo = parseInt(req.params.tipo);
   try {
     pool.query(
-      "SELECT * FROM solicitud s join postulante p on s.id_postulante=p.id_postulante join usuario u ON p.id_usuario=u.id_usuario join solicitud_tipoprac st ON st.id_tipoprac =s.id_tipoprac  where p.id_postulante=? and s.id_tipoprac=?;",
+      "SELECT *,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=1) as GUIAPRACTICAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=2) as CONSTANCIAHORAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=3) as INFO FROM solicitud s join postulante p on s.id_postulante=p.id_postulante join usuario u ON p.id_usuario=u.id_usuario join solicitud_tipoprac st ON st.id_tipoprac =s.id_tipoprac join solicitud_estado se on s.id_solestado=se.id_solestado  where p.id_postulante=? and s.id_tipoprac=?;",
       [id, tipo],
       function (err, result) {
         try {
@@ -40,7 +39,6 @@ export const getSolicitudesidtipo = async (req, res) => {
     return res.status(500).json("Error al listar solicitudes");
   }
 };
-
 
 export const createSolicitud = async (req, res) => {
   try {
@@ -137,7 +135,7 @@ export const rechazarSolicitud = async (req, res) => {
 export const observarSolicitud = async (req, res) => {
   const id = parseInt(req.params.id);
   const observacion = req.body.observacion;
-  console.log(id, observacion)
+  console.log(id, observacion);
   try {
     pool.query(
       "CALL SP_OBSERVAR_SOLICITUD(?,?)",
@@ -154,7 +152,6 @@ export const observarSolicitud = async (req, res) => {
     return res.status(500).json("Error al observar solicitudes");
   }
 };
-
 
 export const validarSolicitud = async (req, res) => {
   const id = parseInt(req.body.id);
@@ -192,6 +189,8 @@ export const agregarCartayGuia = async (req, res) => {
       }
     );
   } catch (error) {
-    return res.status(500).json("Error al agrgar carta + guia de practicas solicitudes");
+    return res
+      .status(500)
+      .json("Error al agrgar carta + guia de practicas solicitudes");
   }
 };
