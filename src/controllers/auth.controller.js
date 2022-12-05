@@ -25,7 +25,7 @@ export const login = async (req, res) => {
             var dni = result[0].num_doc;
             var idrol = result[0].id_rol;
             const user = {
-              id: result[0].idtrabajador,
+              id: result[0].id_usuario,
               nombrecompleto: result[0].nom_usuario,
               dni: result[0].num_doc,
               idrol: result[0].id_rol,
