@@ -19,7 +19,25 @@ export const getSolicitudesid = async (req, res) => {
     return res.status(500).json("Error al listar solicitudes");
   }
 };
-
+export const getSolicitudesActual = async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    pool.query(
+      "SELECT *,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=1) as GUIAPRACTICAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=2) as CONSTANCIAHORAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=3) as INFORME FROM solicitud s join postulante p on s.id_postulante=p.id_postulante join usuario u ON p.id_usuario=u.id_usuario join solicitud_tipoprac st ON st.id_tipoprac =s.id_tipoprac join solicitud_estado se on s.id_solestado=se.id_solestado  where p.id_postulante=? and s.id_solestado!=6 order by s.id_solicitud desc ;",
+      [id],
+      function (err, result) {
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al listar solicitudes");
+        }
+        a;
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al listar solicitudes");
+  }
+};
 export const getSolicitudesidtipo = async (req, res) => {
   const id = parseInt(req.params.id);
   const tipo = parseInt(req.params.tipo);
@@ -39,7 +57,64 @@ export const getSolicitudesidtipo = async (req, res) => {
     return res.status(500).json("Error al listar solicitudes");
   }
 };
+export const updateSolicitud = async (req, res) => {
+  try {
+    const P_centro_practicas = req.body.centro;
+    const P_direccion = req.body.direccion;
+    const P_departamento = req.body.departamento;
+    const P_provincia = req.body.provincia;
+    const P_distrito = req.body.distrito;
+    const P_sup_nombre = req.body.supnombre;
 
+    const P_sup_correo = req.body.supcorreo;
+    const P_sup_telefono = req.body.suptelefono;
+    const P_rem_nombre = req.body.remnombre;
+    const P_rem_cargo = req.body.remcargo;
+    const P_rem_correo = req.body.remcorreo;
+
+    const P_idsolicitud = parseInt(req.params.id);
+    console.log(
+      P_centro_practicas,
+      P_direccion,
+      P_departamento,
+      P_provincia,
+      P_distrito,
+      P_sup_nombre,
+      P_sup_correo,
+      P_sup_telefono,
+      P_rem_nombre,
+      P_rem_cargo,
+      P_rem_correo
+    );
+    pool.query(
+      "update solicitud  set solicitud.centro_practicas =?, solicitud.departamento=?, solicitud.provincia=?,solicitud.distrito=?, solicitud.direccion=?, solicitud.sup_nombre=?,solicitud.sup_correo=?, solicitud.sup_telefono=?, solicitud.rem_nombre=?, solicitud.rem_cargo=?, solicitud.rem_correo=?   where solicitud.id_solicitud =?;",
+      [
+        P_centro_practicas,
+        P_direccion,
+        P_departamento,
+        P_provincia,
+        P_distrito,
+        P_sup_nombre,
+        P_sup_correo,
+        P_sup_telefono,
+        P_rem_nombre,
+        P_rem_cargo,
+        P_rem_correo,
+        P_idsolicitud,
+      ],
+      function (err, result) {
+        console.log(result);
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al listar estudiante");
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al listar estudiante");
+  }
+};
 export const createSolicitud = async (req, res) => {
   try {
     const P_centro_practicas = req.body.centro;
@@ -117,7 +192,7 @@ export const rechazarSolicitud = async (req, res) => {
   const idpostulante = parseInt(req.params.idpostulante);
   try {
     pool.query(
-      "CALL SP_RECHAZAR_SOLICITUD(?)",
+      "CALL SP_RECHAZAR_SOLICITUD(?,?)",
       [id, idpostulante],
       function (err, result) {
         try {
