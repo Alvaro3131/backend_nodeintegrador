@@ -6,7 +6,7 @@ router.put("/:id", solicitud.updateSolicitud);
 router.get("/:id", solicitud.getSolicitudesid);
 router.get("/actu/:id", solicitud.getSolicitudesActual);
 router.get("/:id/:tipo", solicitud.getSolicitudesidtipo);
-router.get("/estado/:id", solicitud.getSolicitudesPorEstado);
+router.get("/estado/nuevo/:id", solicitud.getSolicitudesPorEstado);
 router.delete("/delete/:id/:idpostulante", solicitud.rechazarSolicitud);
 router.post("/observarsolicitud/:id", solicitud.observarSolicitud);
 router.post("/validarsolicitud/", solicitud.validarSolicitud);
