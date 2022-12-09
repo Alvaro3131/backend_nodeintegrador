@@ -1,8 +1,29 @@
 import { pool } from "../database";
 
+
+export const getSolicitudesporsuid = async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    pool.query(
+      "SELECT * FROM solicitud where id_solicitud=?;",
+      [id],
+      function (err, result) {
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al listar solicitudes");
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al listar solicitudes");
+  }
+};
+
 //vista de estudiante optener todas sus solicitudes del estudiantes
 export const getSolicitudesid = async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id_solicitud = parseInt(req.params.id);
+  const id_solestado = parseInt(req.params.id);
   try {
     pool.query(
       "SELECT * FROM solicitud s join postulante p on s.id_postulante=p.id_postulante join usuario u ON p.id_usuario=u.id_usuario join solicitud_tipoprac st ON st.id_tipoprac =s.id_tipoprac where p.id_postulante=?;",
@@ -41,6 +62,7 @@ export const getSolicitudesActual = async (req, res) => {
 };
 
 export const getSolicitudesidtipo = async (req, res) => {
+  console.log("entre aqui");
   const id = parseInt(req.params.id);
   const tipo = parseInt(req.params.tipo);
   try {
@@ -66,11 +88,30 @@ export const getSolicitudesidtipo = async (req, res) => {
 
 export const getSolicitudesPorEstado = async (req, res) => {
   const id = parseInt(req.params.id);
-  console.log("hola");
   try {
     pool.query(
       "SELECT *,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=1) as GUIAPRACTICAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=2) as CONSTANCIAHORAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=3) as INFO FROM solicitud s join postulante p on s.id_postulante=p.id_postulante join usuario u ON p.id_usuario=u.id_usuario join solicitud_tipoprac st ON st.id_tipoprac =s.id_tipoprac join solicitud_estado se on s.id_solestado=se.id_solestado  where s.id_solestado=? ;",
       [id],
+      function (err, result) {
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al listar solicitudes");
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al listar solicitudes");
+  }
+};
+
+export const getSolicitudesPorEstadoyId = async (req, res) => {
+  const idsolicitud = parseInt(req.params.idsolicitud);
+  const idsolestado = parseInt(req.params.idsolestado);
+  try {
+    pool.query(
+      "SELECT *,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=1) as GUIAPRACTICAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=2) as CONSTANCIAHORAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=3) as INFO FROM solicitud s join postulante p on s.id_postulante=p.id_postulante join usuario u ON p.id_usuario=u.id_usuario join solicitud_tipoprac st ON st.id_tipoprac =s.id_tipoprac join solicitud_estado se on s.id_solestado=se.id_solestado  where s.id_solicitud=? and s.id_solestado=? ;",
+      [idsolicitud, idsolestado],
       function (err, result) {
         try {
           return res.status(200).json(result);
