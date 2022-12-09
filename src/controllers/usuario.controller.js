@@ -64,10 +64,31 @@ export const createSupervisor = async (req, res) => {
 export const updateSupervisor = async (req, res) => {
   const id = parseInt(req.params.id);
   const P_correo = req.body.correo;
+
   try {
     pool.query(
       "UPDATE usuario set correo=? where id_usuario=?;",
       [P_correo, id],
+      function (err, result) {
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al listar supervisores");
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al listar error al listar supervisores");
+  }
+};
+export const updateestadoSupervisor = async (req, res) => {
+  const id = parseInt(req.params.id);
+  const P_estado = req.body.estado;
+
+  try {
+    pool.query(
+      "UPDATE usuario set estado_usuario=? where id_usuario=?;",
+      [P_estado, id],
       function (err, result) {
         try {
           return res.status(200).json(result);
