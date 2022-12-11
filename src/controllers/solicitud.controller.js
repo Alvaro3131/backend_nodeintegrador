@@ -278,7 +278,7 @@ export const rechazarSolicitud = async (req, res) => {
 export const observarSolicitud = async (req, res) => {
   const id = parseInt(req.params.id);
   const observacion = req.body.observacion;
-  console.log(id, observacion);
+  //console.log(id, observacion);
   try {
     pool.query(
       "CALL SP_OBSERVAR_SOLICITUD(?,?)",
