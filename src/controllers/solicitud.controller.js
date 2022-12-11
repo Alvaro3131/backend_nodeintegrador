@@ -1,6 +1,5 @@
 import { pool } from "../database";
 
-
 export const getSolicitudesporsuid = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
@@ -22,8 +21,8 @@ export const getSolicitudesporsuid = async (req, res) => {
 
 //vista de estudiante optener todas sus solicitudes del estudiantes
 export const getSolicitudesid = async (req, res) => {
-  const id_solicitud = parseInt(req.params.id);
-  const id_solestado = parseInt(req.params.id);
+  const id = parseInt(req.params.id);
+
   try {
     pool.query(
       "SELECT *,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=1) as GUIAPRACTICAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=2) as CONSTANCIAHORAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=3) as INFO FROM solicitud s join postulante p on s.id_postulante=p.id_postulante join usuario u ON p.id_usuario=u.id_usuario join solicitud_tipoprac st ON st.id_tipoprac =s.id_tipoprac join solicitud_estado se on s.id_solestado=se.id_solestado  where p.id_postulante=? ;",
@@ -92,6 +91,26 @@ export const getSolicitudesPorEstado = async (req, res) => {
     pool.query(
       "SELECT *,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=1) as GUIAPRACTICAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=2) as CONSTANCIAHORAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=3) as INFO FROM solicitud s join postulante p on s.id_postulante=p.id_postulante join usuario u ON p.id_usuario=u.id_usuario join solicitud_tipoprac st ON st.id_tipoprac =s.id_tipoprac join solicitud_estado se on s.id_solestado=se.id_solestado  where s.id_solestado=? ;",
       [id],
+      function (err, result) {
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al listar solicitudes");
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al listar solicitudes");
+  }
+};
+// Funcion q devuelve las solicitudes dependiendo del estado // y el codigo
+export const getSolicitudesPorEstadoDni = async (req, res) => {
+  const id = parseInt(req.params.id);
+  const codigo = req.params.codigo;
+  try {
+    pool.query(
+      "SELECT *,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=1) as GUIAPRACTICAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=2) as CONSTANCIAHORAS,(select link_file  from solicitud_documentos sd where id_solicitud=s.id_solicitud and id_soltipodoc=3) as INFO FROM solicitud s join postulante p on s.id_postulante=p.id_postulante join usuario u ON p.id_usuario=u.id_usuario join solicitud_tipoprac st ON st.id_tipoprac =s.id_tipoprac join solicitud_estado se on s.id_solestado=se.id_solestado  where s.id_solestado=? and p.cod_alumno=?;",
+      [id, codigo],
       function (err, result) {
         try {
           return res.status(200).json(result);
