@@ -27,7 +27,6 @@ export const getPostulante = async (req, res) => {
         "s.rem_nombre , s.rem_correo, s.fecha_inicio , s.fecha_fin " +
         "FROM usuario u inner join postulante p on u.id_usuario =p.id_usuario inner join solicitud s on  s.id_postulante  = p.id_postulante inner join solicitud_tipoprac st  on  s.id_tipoprac  = st.id_tipoprac;",
       function (err, result) {
-        console.log(result);
         try {
           return res.status(200).json(result);
         } catch (error) {
