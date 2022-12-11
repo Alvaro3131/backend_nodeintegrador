@@ -139,3 +139,23 @@ export const updateestadoPostulante = async (req, res) => {
     return res.status(500).json("Error al eliminar postulante");
   }
 };
+
+export const getPostulantesPorCodigo = async (req, res) => {
+  const codigo = req.params.codigo_alumno;
+
+  try {
+    pool.query(
+      "SELECT p.id_postulante, p.cod_alumno, u.nom_usuario postulante, u.correo, u.num_doc, p.h_comunitarias, p.h_clinicas, u.estado_usuario, p.id_usuario FROM usuario u inner join postulante p on u.id_usuario =p.id_usuario where p.cod_alumno=?;",
+      [codigo],
+      function (err, result) {
+        try {
+          return res.status(200).json(result);
+        } catch (error) {
+          return res.status(500).json("Error al listar postulante");
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json("Error al listar postulante");
+  }
+};
