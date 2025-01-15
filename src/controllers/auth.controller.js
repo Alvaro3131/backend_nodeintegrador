@@ -1,12 +1,11 @@
-import { pool } from "../database";
-const jwt = require("jsonwebtoken");
+import { pool } from "../database.js";
+import jwt from "jsonwebtoken";
 const secret = "leidy-decret-access-token";
 const refreshTokenSecret = "leidy-decret-refresh-access-token";
 const port = 2000;
 const tokenLife = 900;
 const refreshTokenLife = 86400;
-const helpers = require("../libs/helpers");
-const bcrypt = require("bcryptjs");
+import bcrypt from "bcryptjs";
 const refreshTokens = [];
 
 export const login = async (req, res) => {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as usuario from "../controllers/usuario.controller";
+import * as usuario from "../controllers/usuario.controller.js";
 const router = Router();
 router.get("/supervisor", usuario.getSupervisores);
 router.post("/supervisor", usuario.createSupervisor);

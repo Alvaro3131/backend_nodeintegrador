@@ -2,7 +2,8 @@
   "name": "backend_nodeintegrador",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "module": "es",
   "scripts": {
     "build": "babel src --out-dir dist",
     "dev": "nodemon src/index.js --exec babel-node",

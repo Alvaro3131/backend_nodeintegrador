@@ -1,4 +1,4 @@
-import { pool } from "../database";
+import { pool } from "../database.js";
 
 export const getSolicitudesporsuid = async (req, res) => {
   const id = parseInt(req.params.id);

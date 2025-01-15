@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as postulante from "../controllers/postulante.controller";
+import * as postulante from "../controllers/postulante.controller.js";
 const router = Router();
 
 router.get("/:id", postulante.datosPostulante);

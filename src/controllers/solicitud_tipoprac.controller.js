@@ -1,4 +1,4 @@
-import { pool } from "../database";
+import { pool } from "../database.js";
 export const getSolicitudesTipoprac = async (req, res) => {
   try {
     pool.query("SELECT * FROM solicitud_tipoprac;", function (err, result) {

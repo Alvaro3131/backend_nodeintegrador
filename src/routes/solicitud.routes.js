@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as solicitud from "../controllers/solicitud.controller";
+import * as solicitud from "../controllers/solicitud.controller.js";
 const router = Router();
 router.post("/", solicitud.createSolicitud);
 router.put("/:id", solicitud.updateSolicitud);

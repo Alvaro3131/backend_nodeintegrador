@@ -1,4 +1,4 @@
-var mysql = require("mysql");
+import mysql from "mysql";
 
 export const pool = mysql.createPool({
   host: "us-cdbr-east-06.cleardb.net",

@@ -1,4 +1,4 @@
-import { pool } from "../database";
+import { pool } from "../database.js";
 export const gettipodos = async (req, res) => {
   try {
     pool.query("SELECT * FROM tipodoc;", function (err, result) {

@@ -1,5 +1,5 @@
-import { pool } from "../database";
-const helpers = require("../libs/helpers");
+import { pool } from "../database.js";
+import helpers from "../libs/helpers.js";
 export const getSupervisores = async (req, res) => {
   try {
     pool.query(
